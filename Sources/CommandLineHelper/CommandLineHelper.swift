@@ -1,11 +1,11 @@
 public struct CommandLineHelper {
-    var text = "Hello, World!"
+    public var text = "Hello, World!"
 }
 
 public struct CommandLineOptions {
-  static var options: [String] = []
+  public static var options: [String] = []
   
-  static func addOption(_ name: String) {
+  public static func addOption(_ name: String) {
     options.append(name)
   }
 }
