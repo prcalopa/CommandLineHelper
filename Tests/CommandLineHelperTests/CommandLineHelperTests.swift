@@ -16,8 +16,6 @@ final class CommandLineHelperTests: XCTestCase {
       XCTAssertEqual(result[0].1, "arg1")
     } catch CommandLineError.mandatoryArgumentNotFound {
       XCTAssert(true, "Mandatory argument not found")
-    } catch CommandLineError.wrongArgumentsFound {
-      XCTAssert(true, "Wrong arguments found")
     } catch {
       XCTFail()
     }
