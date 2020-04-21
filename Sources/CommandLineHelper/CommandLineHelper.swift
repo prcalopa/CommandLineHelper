@@ -1,8 +1,8 @@
-struct CommandLineHelper {
+public struct CommandLineHelper {
     var text = "Hello, World!"
 }
 
-struct CommandLineOptions {
+public struct CommandLineOptions {
   static var options: [String] = []
   
   static func addOption(_ name: String) {
@@ -10,8 +10,8 @@ struct CommandLineOptions {
   }
 }
 
-typealias Options = (String, String)
-func parseArguments(_ args:[String]) -> [Options] {
+public typealias Options = (String, String)
+public func parseArguments(_ args:[String]) -> [Options] {
   var options: [Options] = []
   for option in CommandLineOptions.options {
     if let index = args.firstIndex(of: option) {
