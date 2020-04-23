@@ -15,7 +15,7 @@ final class CommandLineHelperTests: XCTestCase {
     
     do {
       // When
-      let parsedArguments = try parse(arguments: input)
+      let parsedArguments = try CommandLineOptions.parse(arguments: input)
       
       // Then: Check if option arguments are parsed corretly
       guard let arg1 = parsedArguments.first(where:{ $0.name == "short" })
@@ -45,7 +45,7 @@ final class CommandLineHelperTests: XCTestCase {
 
     do {
       // When
-      let _ = try parse(arguments: input)
+      let _ = try CommandLineOptions.parse(arguments: input)
       // Then
     } catch CommandLineError.mandatoryArgumentNotFound {
       XCTAssert(true)
@@ -64,7 +64,7 @@ final class CommandLineHelperTests: XCTestCase {
     
     do {
       // When
-      let _ = try parse(arguments: input)
+      let _ = try CommandLineOptions.parse(arguments: input)
       // Then
     } catch CommandLineError.duplicatedArgument(let duplicatedOption){
       XCTAssertEqual(duplicatedOption, "test")
@@ -83,7 +83,7 @@ final class CommandLineHelperTests: XCTestCase {
     
     do {
       // When
-      let _ = try parse(arguments: input)
+      let _ = try CommandLineOptions.parse(arguments: input)
       // Then
     } catch CommandLineError.unknownOptionFound{
       XCTAssert(true)
@@ -94,7 +94,6 @@ final class CommandLineHelperTests: XCTestCase {
     }
     XCTFail()
   }
-  
   
   static var allTests = [
     ("testParseValidOptionArguments", testParseValidOptionArguments),
