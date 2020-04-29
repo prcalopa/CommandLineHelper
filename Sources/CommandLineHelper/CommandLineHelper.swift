@@ -17,6 +17,8 @@ public class Option {
 public class CommandLineHelper {
   private var options: [Option] = []
   
+  public init() {}
+  
   public func addOptions(_ options: [Option]) {
     self.options = options
   }
