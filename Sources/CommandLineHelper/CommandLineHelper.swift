@@ -4,7 +4,7 @@ public class Option {
   let shortName: String
   let longName: String
   let mandatory: Bool
-  var value: String?
+  public var value: String?
   
   public init(name: String, shortName: String, mandatory: Bool = false) {
     self.name = name
