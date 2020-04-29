@@ -1,35 +1,34 @@
 
-public typealias CommandLineOptionArgument = (name: String, value: String)
-
-public struct Option {
+public class Option {
   let name: String
   let shortName: String
   let longName: String
   let mandatory: Bool
+  var value: String?
+  
+  init(name: String, shortName: String, mandatory: Bool = false) {
+    self.name = name
+    self.shortName = shortName.singleHyphen()
+    self.longName = name.doubleHyphen()
+    self.mandatory = mandatory
+  }
 }
 
-public struct CommandLineOptions {
-  public static var options: [Option] = []
+public class CommandLineHelper {
+  private var options: [Option] = []
   
-  public static func addOption(name: String, shortName: String, mandatory: Bool = false) {
-    let option = Option(
-      name: name,
-      shortName: shortName.singleHyphen(),
-      longName: name.doubleHyphen(),
-      mandatory: mandatory
-    )
-    options.append(option)
+  public func addOptions(_ options: [Option]) {
+    self.options = options
   }
   
-  public static func reset() {
+  public func reset() {
     options = []
   }
   
-  public static func parse(arguments: [String]) throws -> [CommandLineOptionArgument] {
-    var optionsWithArguments: [CommandLineOptionArgument] = []
+  public func parse(arguments: [String]) throws -> Void {
     
     // 1. Check if all mandatory options are present
-    for option in CommandLineOptions.options where option.mandatory == true {
+    for option in options where option.mandatory == true {
       if !(arguments.contains(option.shortName) || arguments.contains(option.longName)) {
         throw CommandLineError.mandatoryArgumentNotFound
       }
@@ -39,7 +38,7 @@ public struct CommandLineOptions {
     var optionsCopy = arguments
     optionsCopy.remove(at: 0)
     
-    for option in CommandLineOptions.options {
+    for option in options {
       // remove executable name
       if let index = optionsCopy.firstIndex(of: option.shortName) {
         optionsCopy.remove(at: index)
@@ -55,7 +54,7 @@ public struct CommandLineOptions {
     }
     
     // 3. Here we ensured all mandatory options are present and there are no unknown options
-    for option in CommandLineOptions.options {
+    for option in options {
       // Check for duplicated arguments
       if arguments.contains(option.shortName) && arguments.contains(option.longName) {
         throw CommandLineError.duplicatedArgument(option.name)
@@ -66,7 +65,8 @@ public struct CommandLineOptions {
         guard let index = arguments.firstIndex(of: option.shortName) else {
           throw CommandLineError.optionIndexNotFound
         }
-        optionsWithArguments.append((option.name, arguments[index+1]))
+        //optionsWithArguments.append((option.name, arguments[index+1]))
+        option.value = arguments[index+1]
       }
       // Check if args contains long name
       else if arguments.contains(option.longName) {
@@ -74,11 +74,11 @@ public struct CommandLineOptions {
         guard let index = arguments.firstIndex(of: option.longName) else {
           throw CommandLineError.optionIndexNotFound
         }
-        optionsWithArguments.append((option.name, arguments[index+1]))
+        //optionsWithArguments.append((option.name, arguments[index+1]))
+        option.value = arguments[index+1]
       }
     }
-    // return parsed options names and their arguments
-    return optionsWithArguments
+    
   }
 }
 
