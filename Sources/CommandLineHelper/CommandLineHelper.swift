@@ -6,7 +6,7 @@ public class Option {
   let mandatory: Bool
   var value: String?
   
-  init(name: String, shortName: String, mandatory: Bool = false) {
+  public init(name: String, shortName: String, mandatory: Bool = false) {
     self.name = name
     self.shortName = shortName.singleHyphen()
     self.longName = name.doubleHyphen()
